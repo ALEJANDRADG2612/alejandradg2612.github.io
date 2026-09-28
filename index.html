@@ -1,0 +1,522 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="Portafolio de Alejandra Duque García, Junior Data Analyst en Málaga. Python, SQL, Power BI y PostgreSQL.">
+<title>Alejandra Duque García · Junior Data Analyst</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  /* =========================================================
+     COLORES: cambia solo estas variables para toda la página
+     ========================================================= */
+  :root {
+    --bg: #0D1220;          /* fondo: azul noche */
+    --surface: #131A2B;     /* fondo de tarjetas */
+    --ink: #F2F0EB;         /* texto principal */
+    --muted: #9BA3B4;       /* texto secundario */
+    --line: #263049;        /* bordes */
+    --accent: #C4B5FD;      /* color de acento (lila) */
+    --accent-ink: #151027;  /* texto sobre el acento */
+    --font: "Manrope", "Segoe UI", system-ui, sans-serif;
+    --mono: "JetBrains Mono", ui-monospace, "Consolas", monospace;
+    --max: 1120px;
+    box-sizing: border-box;
+    padding-top: env(safe-area-inset-top, 0px);
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+    color-scheme: dark;
+  }
+  /* La página es siempre oscura, aunque el navegador o el visor estén en modo claro */
+  :root, :root[data-theme="light"], :root[data-theme="dark"] { color-scheme: dark; }
+
+  *, *::before, *::after { box-sizing: border-box; }
+  html { scroll-behavior: smooth; scroll-padding-top: calc(env(safe-area-inset-top, 0px) + 80px); }
+  body {
+    margin: 0; background: var(--bg); color: var(--ink);
+    font-family: var(--font); font-size: 1.0625rem; line-height: 1.65;
+    -webkit-font-smoothing: antialiased;
+  }
+  a { color: inherit; }
+  a:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 6px; }
+  h1, h2, h3 { margin: 0; line-height: 1.05; }
+  p { margin: 0 0 1em; }
+  .wrap { max-width: var(--max); margin: 0 auto; padding: 0 1.5rem; }
+  section { padding: 6rem 0; }
+
+  /* Etiqueta pequeña sobre los títulos */
+  .eyebrow {
+    font-family: var(--mono); font-size: 0.78rem; letter-spacing: 0.12em;
+    text-transform: uppercase; color: var(--accent); margin-bottom: 1.25rem; display: block;
+  }
+  h2 { font-size: clamp(2.2rem, 5vw, 3.6rem); font-weight: 800; letter-spacing: -0.045em; }
+
+  /* ========= BOTONES ========= */
+  .actions { display: flex; flex-wrap: wrap; gap: 0.75rem; }
+  .btn {
+    display: inline-flex; align-items: center; justify-content: center;
+    padding: 0.85rem 1.4rem; border-radius: 999px; font-weight: 700; font-size: 0.95rem;
+    text-decoration: none; border: 1px solid var(--line); transition: background .2s, border-color .2s, transform .2s;
+  }
+  .btn:hover { transform: translateY(-1px); }
+  .btn-primary { background: var(--accent); color: var(--accent-ink); border-color: var(--accent); }
+  .btn-primary:hover { filter: brightness(1.07); }
+  .btn-outline { color: var(--ink); background: transparent; }
+  .btn-outline:hover { border-color: var(--accent); }
+  .link {
+    color: var(--accent); font-weight: 700; font-size: 0.92rem; text-decoration: none;
+  }
+  .link:hover { text-decoration: underline; text-underline-offset: 4px; }
+
+  /* ========= NAV ========= */
+  header.nav {
+    position: sticky; top: 0; z-index: 10;
+    padding-top: env(safe-area-inset-top, 0px);
+    background: color-mix(in srgb, var(--bg) 85%, transparent); backdrop-filter: blur(10px);
+  }
+  .nav .wrap { display: flex; align-items: center; justify-content: space-between; height: 72px; }
+  .logo { font-weight: 800; text-decoration: none; letter-spacing: -0.01em; }
+  .nav ul { list-style: none; display: flex; gap: 1.75rem; margin: 0; padding: 0; }
+  .nav ul a { color: var(--muted); text-decoration: none; font-size: 0.93rem; font-weight: 600; }
+  .nav ul a:hover { color: var(--ink); }
+  @media (max-width: 720px) { .nav ul { display: none; } }
+
+  /* ========= HERO ========= */
+  .hero { min-height: calc(90vh - 72px); display: flex; align-items: center; padding: 4rem 0 5rem; }
+  .hero h1 {
+    font-size: clamp(3rem, 9.5vw, 7.2rem); font-weight: 800; letter-spacing: -0.06em;
+    margin-bottom: 1.75rem;
+  }
+  .hero h1 .name { color: var(--accent); }
+  .hero .lead { font-size: clamp(1.1rem, 1.6vw, 1.3rem); color: var(--muted); max-width: 40ch; margin-bottom: 2.5rem; }
+
+  /* ========= SOBRE MÍ ========= */
+  .about { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: start; }
+  .about p { color: var(--muted); font-size: 1.12rem; line-height: 1.8; max-width: 52ch; }
+  @media (max-width: 820px) { .about { grid-template-columns: 1fr; gap: 2rem; } }
+
+  /* ========= PROYECTOS ========= */
+  .section-head { display: flex; justify-content: space-between; align-items: end; gap: 1rem; flex-wrap: wrap; margin-bottom: 3rem; }
+  .projects { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 420px), 1fr)); gap: 1.5rem; }
+  .card {
+    background: var(--surface); border: 1px solid var(--line); border-radius: 18px;
+    padding: 2rem; display: flex; flex-direction: column; transition: border-color .25s;
+  }
+  .card:hover { border-color: color-mix(in srgb, var(--accent) 50%, var(--line)); }
+  .card .num { font-family: var(--mono); font-size: 0.8rem; color: var(--muted); margin-bottom: 3rem; }
+  .card h3 { font-size: 1.6rem; font-weight: 700; letter-spacing: -0.02em; margin-bottom: 1rem; }
+  .card > p { color: var(--muted); font-size: 1.05rem; }
+  .conclusion { border-left: 2px solid var(--accent); padding: 0.1rem 0 0.1rem 1rem; margin: 0.75rem 0 1.75rem; }
+  .conclusion strong { display: block; color: var(--accent); font-size: 0.78rem; letter-spacing: 0.06em; text-transform: uppercase; margin-bottom: 0.35rem; }
+  .conclusion p { font-size: 0.95rem; color: var(--ink); opacity: .85; margin: 0; }
+  .tags { list-style: none; display: flex; flex-wrap: wrap; gap: 0.5rem; padding: 0; margin: 0 0 1.75rem; }
+  .tags li { font-size: 0.82rem; padding: 0.35rem 0.8rem; border: 1px solid var(--line); border-radius: 999px; color: var(--muted); }
+  .card .links { display: flex; flex-wrap: wrap; gap: 0.5rem 1.5rem; margin-top: auto; }
+
+  /* ========= HABILIDADES ========= */
+  .skills { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 1.5rem; }
+  .skill-group { border-top: 1px solid var(--line); padding-top: 1.5rem; }
+  .skill-group h3 { font-size: 1.15rem; font-weight: 700; margin-bottom: 1rem; }
+  .skill-group .tags { margin: 0; }
+
+  /* ========= EXPERIENCIA ========= */
+  .timeline { list-style: none; padding: 0; margin: 0; }
+  .timeline > li {
+    display: grid; grid-template-columns: 200px 1fr; gap: 2rem;
+    padding: 2rem 0; border-top: 1px solid var(--line);
+  }
+  .timeline > li:last-child { border-bottom: 1px solid var(--line); }
+  .timeline .when { font-family: var(--mono); font-size: 0.85rem; color: var(--muted); padding-top: 0.3rem; }
+  .timeline h3 { font-size: 1.3rem; font-weight: 700; margin-bottom: 0.25rem; }
+  .timeline .org { color: var(--accent); font-weight: 600; margin-bottom: 0.75rem; display: block; }
+  .timeline p { color: var(--muted); margin: 0; max-width: 60ch; }
+  @media (max-width: 720px) { .timeline > li { grid-template-columns: 1fr; gap: 0.5rem; } }
+
+  /* ========= CONTACTO ========= */
+  .contact { text-align: left; }
+  .contact h2 { font-size: clamp(2.6rem, 7vw, 5rem); margin-bottom: 1.5rem; }
+  .contact .lead { color: var(--muted); font-size: 1.15rem; max-width: 46ch; margin-bottom: 2.5rem; }
+
+  footer { border-top: 1px solid var(--line); padding: 2rem 0 3rem; color: var(--muted); font-size: 0.88rem; }
+  footer .wrap { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 1rem; }
+
+  /* Entrada del hero (un solo momento de animación) */
+  .hero .reveal { opacity: 0; transform: translateY(14px); animation: in .7s ease-out forwards; }
+  .hero .reveal:nth-child(2) { animation-delay: .1s; }
+  .hero .reveal:nth-child(3) { animation-delay: .2s; }
+  .hero .reveal:nth-child(4) { animation-delay: .3s; }
+  @keyframes in { to { opacity: 1; transform: none; } }
+  @media (prefers-reduced-motion: reduce) {
+    .hero .reveal { animation: none; opacity: 1; transform: none; }
+    .btn, .card { transition: none; }
+  }
+
+  /* ========= DATOS RÁPIDOS (sobre mí) ========= */
+  .facts { list-style: none; padding: 0; margin: 2rem 0 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1rem 2rem; }
+  .facts li { border-top: 1px solid var(--line); padding-top: 0.85rem; }
+  .facts strong { display: block; font-size: 1rem; color: var(--ink); }
+  .facts span { color: var(--muted); font-size: 0.92rem; }
+  @media (max-width: 520px) { .facts { grid-template-columns: 1fr; } }
+
+  /* ========= PROYECTOS VACÍOS ========= */
+  .card.placeholder { border-style: dashed; }
+  .card.placeholder .num, .card.placeholder h3, .card.placeholder > p { opacity: .75; }
+
+  /* ========= EXPERIENCIA: lista de logros ========= */
+  .timeline ul { margin: 0.25rem 0 0; padding-left: 1.1rem; color: var(--muted); max-width: 62ch; }
+  .timeline ul li { display: list-item; border: 0; padding: 0.2rem 0; grid-template-columns: none; }
+  .timeline .note { font-size: 0.9rem; color: var(--muted); font-style: italic; margin: 0.25rem 0 0.5rem; }
+
+  /* ========= FORMACIÓN ========= */
+  .edu { display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; }
+  .edu h3 { font-size: 1.15rem; font-weight: 700; margin-bottom: 1.25rem; }
+  .edu ul { list-style: none; margin: 0; padding: 0; }
+  .edu li { padding: 1rem 0; border-top: 1px solid var(--line); }
+  .edu li strong { display: block; font-weight: 700; }
+  .edu li span { color: var(--muted); font-size: 0.95rem; }
+  .edu .year { font-family: var(--mono); font-size: 0.8rem; color: var(--accent); }
+  @media (max-width: 760px) { .edu { grid-template-columns: 1fr; gap: 2rem; } }
+
+  /* ========= FOTO ========= */
+  .photo {
+    width: 200px; aspect-ratio: 1; border-radius: 50%; object-fit: cover;
+    border: 3px solid var(--accent); padding: 5px; background: var(--bg);
+    margin-bottom: 2rem;
+  }
+  @media (max-width: 820px) { .photo { width: 150px; margin-bottom: 1.5rem; } }
+
+  /* ========= STACK CON LOGOS ========= */
+  .stack { list-style: none; display: flex; flex-wrap: wrap; gap: 0.55rem; padding: 0; margin: 0; }
+  .stack li {
+    display: inline-flex; align-items: center; gap: 0.5rem;
+    font-size: 0.88rem; color: var(--ink); background: var(--surface);
+    border: 1px solid var(--line); border-radius: 999px; padding: 0.4rem 0.9rem 0.4rem 0.7rem;
+  }
+  .stack svg { width: 16px; height: 16px; fill: currentColor; flex: none; }
+
+  /* ========= BOTÓN DE IDIOMA ========= */
+  .lang {
+    background: transparent; color: var(--muted); border: 1px solid var(--line);
+    border-radius: 999px; padding: 0.35rem 0.85rem; font: inherit; font-size: 0.8rem;
+    font-weight: 700; letter-spacing: 0.06em; cursor: pointer; font-family: var(--mono);
+  }
+  .lang:hover { color: var(--ink); border-color: var(--accent); }
+  .nav .wrap > nav { display: flex; align-items: center; gap: 1.5rem; }
+
+  /* ========= CIFRAS CLAVE DE UN PROYECTO ========= */
+  .card.wide { grid-column: 1 / -1; }
+  .stats { list-style: none; display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+           gap: 0.75rem; padding: 0; margin: 0 0 1.75rem; }
+  .stats li { border: 1px solid var(--line); border-radius: 12px; padding: 0.9rem 1rem; background: var(--bg); }
+  .stats b { display: block; font-size: 1.5rem; font-weight: 800; color: var(--accent); letter-spacing: -0.02em; line-height: 1.2; }
+  .stats span { font-family: var(--mono); font-size: 0.7rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); }
+
+  /* ========= LOGO DE PROYECTO ========= */
+  .card .project-logo { width: 220px; max-width: 60%; height: auto; margin-bottom: 1.5rem; }
+  @media (max-width: 520px) { .card .project-logo { width: 180px; max-width: 75%; } }
+
+  /* ========= CAPTURA DE PROYECTO ========= */
+  .card .shot { display: block; width: 100%; max-width: 480px; height: auto; border: 1px solid var(--line);
+               border-radius: 12px; margin-bottom: 1.5rem; transition: border-color .25s; }
+  .card a:hover .shot { border-color: var(--accent); }
+
+  /* ========= TARJETAS COMPACTAS ========= */
+  .projects { grid-template-columns: repeat(auto-fit, minmax(min(100%, 340px), 1fr)); }
+  .card.compact { padding: 0 0 1.5rem; overflow: hidden; }
+  .card.compact .media { height: 150px; background: var(--bg); border-bottom: 1px solid var(--line); display: grid; place-items: center; overflow: hidden; }
+  .card.compact .media img.cover { width: 100%; height: 100%; object-fit: cover; object-position: top center; }
+  .card.compact .media img.logo { width: 200px; max-width: 70%; height: auto; }
+  .card.compact .body { padding: 1.5rem; display: flex; flex-direction: column; flex: 1; }
+  .card.compact .tags { margin: 0 0 1rem; }
+  .card.compact h3 { font-size: 1.3rem; margin-bottom: 0.75rem; }
+  .card.compact .body > p { font-size: 0.98rem; margin-bottom: 1rem; }
+  .card.compact .conclusion { margin: 0 0 1.25rem; }
+  .card.compact .links { gap: 0.4rem 1.2rem; }
+
+  .card .note { font-size: 0.82rem; color: var(--muted); font-style: italic; margin: 0; }
+</style>
+</head>
+<body>
+
+<header class="nav">
+  <div class="wrap">
+    <a class="logo" href="#inicio">Alejandra Duque García</a>
+    <nav aria-label="Principal">
+      <button class="lang" id="lang" type="button" aria-label="Read in English">EN</button>
+      <ul>
+        <li><a href="#sobre-mi" data-en="About">Sobre mí</a></li>
+        <li><a href="#proyectos" data-en="Projects">Proyectos</a></li>
+        <li><a href="#habilidades" data-en="Skills">Habilidades</a></li>
+        <li><a href="#experiencia" data-en="Experience">Experiencia</a></li>
+        <li><a href="#formacion" data-en="Education">Formación</a></li>
+        <li><a href="#contacto" data-en="Contact">Contacto</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <!-- ===== HERO ===== -->
+  <section class="hero" id="inicio">
+    <div class="wrap">
+      <span class="eyebrow reveal" data-en="Junior Data Analyst">Junior Data Analyst</span>
+      <h1 class="reveal" data-en="Hi, I&#39;m &lt;span class=&quot;name&quot;&gt;Alejandra.&lt;/span&gt;">Hola, soy <span class="name">Alejandra.</span></h1>
+      <p class="lead reveal" data-en="After more than ten years working in the social sector, I now work in data analysis. I use Python, SQL and Power BI, and I like data that actually helps people decide something.">Después de más de diez años en el sector social, me dedico al análisis de datos. Trabajo con Python, SQL y Power BI, y me gusta que los datos sirvan para tomar decisiones de verdad.</p>
+      <div class="actions reveal">
+        <a class="btn btn-primary" href="#proyectos" data-en="See my work">Ver mis trabajos</a>
+        <a class="btn btn-outline" href="#contacto" data-en="Get in touch">Contactarme</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== SOBRE MÍ ===== -->
+  <section id="sobre-mi">
+    <div class="wrap about">
+      <div>
+        <img class="photo" src="foto.jpg" alt="Alejandra Duque García" width="200" height="200">
+        <span class="eyebrow" data-en="About">Sobre mí</span>
+        <h2 data-en="From social work to data analysis">Del trabajo social al análisis de datos</h2>
+      </div>
+      <div>
+        <p data-en="I worked as a social worker for more than ten years at Málaga Acoge, CEAR and the Spanish Red Cross. Besides supporting people, I coordinated teams, oversaw programme costs together with the administration team, recorded data and wrote the final technical reports for funding bodies. Over time I realised that a huge part of my job was already about organising information and drawing conclusions from it.">He sido trabajadora social durante más de diez años en Málaga Acoge, CEAR y Cruz Roja. Además de acompañar a personas, coordinaba equipos, supervisaba los costes del programa junto al área de administración, registraba datos y redactaba las memorias técnicas finales para organismos financiadores. Con el tiempo me di cuenta de que una parte enorme de mi trabajo ya consistía en ordenar información y sacar conclusiones de ella.</p>
+        <p data-en="In 2026 I decided to move my career towards data analysis and completed the Data Analyst Bootcamp at Factoría F5. During my internship I worked with a real database, and what I enjoyed most was finding what didn't add up and understanding why.">En 2026 decidí orientar mi carrera al análisis de datos y me formé en el Bootcamp Data Analyst de Factoría F5. Durante las prácticas trabajé con una base de datos real, y lo que más disfruté fue encontrar lo que no cuadraba y entender por qué.</p>
+        <p data-en="I'm looking for a team where I can keep learning and where my experience working with people counts too.">Busco un equipo donde seguir aprendiendo y donde mi experiencia trabajando con personas también sume.</p>
+        <ul class="facts">
+          <li><strong data-en="Málaga, Spain">Málaga, España</strong><span data-en="On-site, hybrid or remote">Presencial, híbrido o remoto</span></li>
+          <li><strong data-en="Available immediately">Incorporación inmediata</strong><span data-en="Driving licence and own car">Carnet de conducir y vehículo propio</span></li>
+          <li><strong data-en="English B2">Inglés B2</strong><span data-en="Native Spanish">Español nativo</span></li>
+          <li><strong data-en="6 years leading teams">6 años coordinando equipos</strong><span data-en="Up to 12 people">Hasta 12 profesionales</span></li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== PROYECTOS (pendiente de elegir) ===== -->
+  <section id="proyectos">
+    <div class="wrap">
+      <div class="section-head">
+        <div>
+          <span class="eyebrow" data-en="Portfolio">Portafolio</span>
+          <h2 data-en="Projects and analysis">Proyectos y análisis</h2>
+        </div>
+        <a class="link" href="cv-alejandra-duque.pdf" target="_blank" rel="noopener" data-en="View CV ↗">Ver CV ↗</a>
+      </div>
+
+      <div class="projects">
+        <article class="card compact">
+          <div class="media"><img class="logo" src="onco-lens.png" alt="OncoLens" width="520" height="147"></div>
+          <div class="body">
+            <ul class="tags"><li>Python</li><li>scikit-learn</li><li>Supabase</li><li>Streamlit</li><li>Docker</li></ul>
+            <h3 data-en="OncoLens — RNA-Seq sample classification">OncoLens — clasificación de muestras RNA-Seq</h3>
+            <p data-en="An app that analyses TCGA gene expression profiles in two steps: first it detects whether a sample is tumorous, then it identifies the cancer type among five cohorts. Final bootcamp project, built by a team of four: I designed and built the Supabase database.">Aplicación que analiza perfiles de expresión génica de TCGA en dos pasos: primero detecta si la muestra es tumoral y después identifica el tipo de cáncer entre cinco cohortes. Proyecto final del bootcamp, en equipo de cuatro: yo diseñé y creé la base de datos en Supabase.</p>
+            <div class="conclusion">
+              <strong data-en="Conclusion">Conclusión</strong>
+              <p data-en="Macro F1 of 0.974 in detection and 1.000 in typing on confirmed cases, across 20,531 genes and 1,680 samples. The key was splitting the data by patient to avoid bias.">F1-macro de 0,974 en detección y 1,000 en tipificación sobre casos confirmados, con 20.531 genes y 1.680 muestras. La clave fue particionar por paciente para evitar sesgos.</p>
+            </div>
+            <div class="links">
+              <a class="link" href="https://github.com/Bootcamp-DA-P2/OncoLens" target="_blank" rel="noopener" data-en="GitHub ↗">GitHub ↗</a>
+              <a class="link" href="https://onco-seq-explorer-app.onrender.com/" target="_blank" rel="noopener" data-en="Demo ↗">Demo ↗</a>
+              <a class="link" href="https://bootcamp-da-p2.github.io/OncoLens/" target="_blank" rel="noopener" data-en="Website ↗">Web ↗</a>
+            </div>
+          </div>
+        </article>
+
+        <article class="card compact">
+          <a class="media" href="airbnb-dashboard.pdf" target="_blank" rel="noopener" aria-label="Abrir el dashboard en PDF"><img class="cover" src="airbnb-dashboard.jpg" alt="Dashboard de Airbnb Performance en Power BI" width="1000" height="578"></a>
+          <div class="body">
+            <ul class="tags"><li>Power BI</li><li>Power Query</li><li>ETL</li><li>Modelo en estrella</li></ul>
+            <h3 data-en="Airbnb Performance — six cities compared">Airbnb Performance — seis ciudades comparadas</h3>
+            <p data-en="A full ETL in Power Query and a star schema built from six CSV files with 219,922 Airbnb listings in London, Madrid, Milan, New York, Sydney and Tokyo, feeding a dashboard with one tab per city.">ETL completo en Power Query y modelo en estrella a partir de seis CSV con 219.922 anuncios de Airbnb en Londres, Madrid, Milán, Nueva York, Sídney y Tokio, con un dashboard y una pestaña por ciudad.</p>
+            <div class="conclusion">
+              <strong data-en="Conclusion">Conclusión</strong>
+              <p data-en="The average price per night ranges from 155.36 in London to 97.40 in Madrid, a gap of more than 55%, and supply concentrates in each city&#x27;s historic centre.">El precio medio por noche va de 155,36 en Londres a 97,40 en Madrid, más de un 55% de diferencia, y la oferta se concentra en los centros históricos de cada ciudad.</p>
+            </div>
+            <div class="links">
+              <a class="link" href="https://github.com/Bootcamp-DA-P2/DA_proyect_Analisis_PowerBI_grupo3" target="_blank" rel="noopener" data-en="GitHub ↗">GitHub ↗</a>
+              <a class="link" href="airbnb-dashboard.pdf" target="_blank" rel="noopener" data-en="Dashboard as PDF ↗">Dashboard en PDF ↗</a>
+            </div>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== HABILIDADES ===== -->
+  <section id="habilidades">
+    <div class="wrap">
+      <span class="eyebrow" data-en="Tools">Herramientas</span>
+      <h2 style="margin-bottom:3rem" data-en="Skills">Habilidades</h2>
+      <div class="skills">
+        <div class="skill-group">
+          <h3 data-en="Languages and analysis">Lenguajes y análisis</h3>
+          <ul class="stack">
+            <li><svg viewBox="0 0 24 24" aria-hidden="true" style="color:#3776AB"><path d="M14.25.18l.9.2.73.26.59.3.45.32.34.34.25.34.16.33.1.3.04.26.02.2-.01.13V8.5l-.05.63-.13.55-.21.46-.26.38-.3.31-.33.25-.35.19-.35.14-.33.1-.3.07-.26.04-.21.02H8.77l-.69.05-.59.14-.5.22-.41.27-.33.32-.27.35-.2.36-.15.37-.1.35-.07.32-.04.27-.02.21v3.06H3.17l-.21-.03-.28-.07-.32-.12-.35-.18-.36-.26-.36-.36-.35-.46-.32-.59-.28-.73-.21-.88-.14-1.05-.05-1.23.06-1.22.16-1.04.24-.87.32-.71.36-.57.4-.44.42-.33.42-.24.4-.16.36-.1.32-.05.24-.01h.16l.06.01h8.16v-.83H6.18l-.01-2.75-.02-.37.05-.34.11-.31.17-.28.25-.26.31-.23.38-.2.44-.18.51-.15.58-.12.64-.1.71-.06.77-.04.84-.02 1.27.05zm-6.3 1.98l-.23.33-.08.41.08.41.23.34.33.22.41.09.41-.09.33-.22.23-.34.08-.41-.08-.41-.23-.33-.33-.22-.41-.09-.41.09zm13.09 3.95l.28.06.32.12.35.18.36.27.36.35.35.47.32.59.28.73.21.88.14 1.04.05 1.23-.06 1.23-.16 1.04-.24.86-.32.71-.36.57-.4.45-.42.33-.42.24-.4.16-.36.09-.32.05-.24.02-.16-.01h-8.22v.82h5.84l.01 2.76.02.36-.05.34-.11.31-.17.29-.25.25-.31.24-.38.2-.44.17-.51.15-.58.13-.64.09-.71.07-.77.04-.84.01-1.27-.04-1.07-.14-.9-.2-.73-.25-.59-.3-.45-.33-.34-.34-.25-.34-.16-.33-.1-.3-.04-.25-.02-.2.01-.13v-5.34l.05-.64.13-.54.21-.46.26-.38.3-.32.33-.24.35-.2.35-.14.33-.1.3-.06.26-.04.21-.02.13-.01h5.84l.69-.05.59-.14.5-.21.41-.28.33-.32.27-.35.2-.36.15-.36.1-.35.07-.32.04-.28.02-.21V6.07h2.09l.14.01zm-6.47 14.25l-.23.33-.08.41.08.41.23.33.33.23.41.08.41-.08.33-.23.23-.33.08-.41-.08-.41-.23-.33-.33-.23-.41-.08-.41.08z"/></svg>Python</li>
+            <li><svg viewBox="0 0 24 24" aria-hidden="true" style="color:#6945F6"><path d="M16.922 0h2.623v18.104h-2.623zm-4.126 12.94h2.623v2.57h-2.623zm0-7.037h2.623v5.446h-2.623zm0 11.197h2.623v5.446h-2.623zM4.456 5.896h2.622V24H4.455zm4.213 2.559h2.623v2.57H8.67zm0 4.151h2.623v5.447H8.67zm0-11.187h2.623v5.446H8.67Z"/></svg>Pandas</li>
+            <li><svg viewBox="0 0 24 24" aria-hidden="true" style="color:#40CBFC"><path d="M10.315 4.876L6.3048 2.8517l-4.401 2.1965 4.1186 2.0683zm1.8381.9277l4.2045 2.1223-4.3622 2.1906-4.125-2.0718zm5.6153-2.9213l4.3193 2.1658-3.863 1.9402-4.2131-2.1252zm-1.859-.9329L12.021 0 8.1742 1.9193l4.0068 2.0208zm-3.0401 16.7443V24l4.7107-2.3507-.0053-5.3085zm4.7037-4.2057l-.0052-5.2528-4.6985 2.3356v5.2546zm5.6553-.9845v5.327l-4.0178 2.0052-.0029-5.3028zm0-1.8626V6.4214l-4.0253 2.001.0034 5.2633zM11.2062 11.571L8.0333 9.9756v6.895s-3.8804-8.2564-4.2399-8.998c-.0463-.0957-.2371-.2007-.2858-.2262C2.8118 7.2812.773 6.2485.773 6.2485V18.43l2.8204 1.5076v-6.3674s3.8392 7.3775 3.878 7.458c.0389.0807.4245.8582.8362 1.1314.5485.363 2.8992 1.7766 2.8992 1.7766z"/></svg>NumPy</li>
+            <li><svg viewBox="0 0 24 24" aria-hidden="true" style="color:#4169E1"><path d="M23.5594 14.7228a.5269.5269 0 0 0-.0563-.1191c-.139-.2632-.4768-.3418-1.0074-.2321-1.6533.3411-2.2935.1312-2.5256-.0191 1.342-2.0482 2.445-4.522 3.0411-6.8297.2714-1.0507.7982-3.5237.1222-4.7316a1.5641 1.5641 0 0 0-.1509-.235C21.6931.9086 19.8007.0248 17.5099.0005c-1.4947-.0158-2.7705.3461-3.1161.4794a9.449 9.449 0 0 0-.5159-.0816 8.044 8.044 0 0 0-1.3114-.1278c-1.1822-.0184-2.2038.2642-3.0498.8406-.8573-.3211-4.7888-1.645-7.2219.0788C.9359 2.1526.3086 3.8733.4302 6.3043c.0409.818.5069 3.334 1.2423 5.7436.4598 1.5065.9387 2.7019 1.4334 3.582.553.9942 1.1259 1.5933 1.7143 1.7895.4474.1491 1.1327.1441 1.8581-.7279.8012-.9635 1.5903-1.8258 1.9446-2.2069.4351.2355.9064.3625 1.39.3772a.0569.0569 0 0 0 .0004.0041 11.0312 11.0312 0 0 0-.2472.3054c-.3389.4302-.4094.5197-1.5002.7443-.3102.064-1.1344.2339-1.1464.8115-.0025.1224.0329.2309.0919.3268.2269.4231.9216.6097 1.015.6331 1.3345.3335 2.5044.092 3.3714-.6787-.017 2.231.0775 4.4174.3454 5.0874.2212.5529.7618 1.9045 2.4692 1.9043.2505 0 .5263-.0291.8296-.0941 1.7819-.3821 2.5557-1.1696 2.855-2.9059.1503-.8707.4016-2.8753.5388-4.1012.0169-.0703.0357-.1207.057-.1362.0007-.0005.0697-.0471.4272.0307a.3673.3673 0 0 0 .0443.0068l.2539.0223.0149.001c.8468.0384 1.9114-.1426 2.5312-.4308.6438-.2988 1.8057-1.0323 1.5951-1.6698zM2.371 11.8765c-.7435-2.4358-1.1779-4.8851-1.2123-5.5719-.1086-2.1714.4171-3.6829 1.5623-4.4927 1.8367-1.2986 4.8398-.5408 6.108-.13-.0032.0032-.0066.0061-.0098.0094-2.0238 2.044-1.9758 5.536-1.9708 5.7495-.0002.0823.0066.1989.0162.3593.0348.5873.0996 1.6804-.0735 2.9184-.1609 1.1504.1937 2.2764.9728 3.0892.0806.0841.1648.1631.2518.2374-.3468.3714-1.1004 1.1926-1.9025 2.1576-.5677.6825-.9597.5517-1.0886.5087-.3919-.1307-.813-.5871-1.2381-1.3223-.4796-.839-.9635-2.0317-1.4155-3.5126zm6.0072 5.0871c-.1711-.0428-.3271-.1132-.4322-.1772.0889-.0394.2374-.0902.4833-.1409 1.2833-.2641 1.4815-.4506 1.9143-1.0002.0992-.126.2116-.2687.3673-.4426a.3549.3549 0 0 0 .0737-.1298c.1708-.1513.2724-.1099.4369-.0417.156.0646.3078.26.3695.4752.0291.1016.0619.2945-.0452.4444-.9043 1.2658-2.2216 1.2494-3.1676 1.0128zm2.094-3.988-.0525.141c-.133.3566-.2567.6881-.3334 1.003-.6674-.0021-1.3168-.2872-1.8105-.8024-.6279-.6551-.9131-1.5664-.7825-2.5004.1828-1.3079.1153-2.4468.079-3.0586-.005-.0857-.0095-.1607-.0122-.2199.2957-.2621 1.6659-.9962 2.6429-.7724.4459.1022.7176.4057.8305.928.5846 2.7038.0774 3.8307-.3302 4.7363-.084.1866-.1633.3629-.2311.5454zm7.3637 4.5725c-.0169.1768-.0358.376-.0618.5959l-.146.4383a.3547.3547 0 0 0-.0182.1077c-.0059.4747-.054.6489-.115.8693-.0634.2292-.1353.4891-.1794 1.0575-.11 1.4143-.8782 2.2267-2.4172 2.5565-1.5155.3251-1.7843-.4968-2.0212-1.2217a6.5824 6.5824 0 0 0-.0769-.2266c-.2154-.5858-.1911-1.4119-.1574-2.5551.0165-.5612-.0249-1.9013-.3302-2.6462.0044-.2932.0106-.5909.019-.8918a.3529.3529 0 0 0-.0153-.1126 1.4927 1.4927 0 0 0-.0439-.208c-.1226-.4283-.4213-.7866-.7797-.9351-.1424-.059-.4038-.1672-.7178-.0869.067-.276.1831-.5875.309-.9249l.0529-.142c.0595-.16.134-.3257.213-.5012.4265-.9476 1.0106-2.2453.3766-5.1772-.2374-1.0981-1.0304-1.6343-2.2324-1.5098-.7207.0746-1.3799.3654-1.7088.5321a5.6716 5.6716 0 0 0-.1958.1041c.0918-1.1064.4386-3.1741 1.7357-4.4823a4.0306 4.0306 0 0 1 .3033-.276.3532.3532 0 0 0 .1447-.0644c.7524-.5706 1.6945-.8506 2.802-.8325.4091.0067.8017.0339 1.1742.081 1.939.3544 3.2439 1.4468 4.0359 2.3827.8143.9623 1.2552 1.9315 1.4312 2.4543-1.3232-.1346-2.2234.1268-2.6797.779-.9926 1.4189.543 4.1729 1.2811 5.4964.1353.2426.2522.4522.2889.5413.2403.5825.5515.9713.7787 1.2552.0696.087.1372.1714.1885.245-.4008.1155-1.1208.3825-1.0552 1.717-.0123.1563-.0423.4469-.0834.8148-.0461.2077-.0702.4603-.0994.7662zm.8905-1.6211c-.0405-.8316.2691-.9185.5967-1.0105a2.8566 2.8566 0 0 0 .135-.0406 1.202 1.202 0 0 0 .1342.103c.5703.3765 1.5823.4213 3.0068.1344-.2016.1769-.5189.3994-.9533.6011-.4098.1903-1.0957.333-1.7473.3636-.7197.0336-1.0859-.0807-1.1721-.151zm.5695-9.2712c-.0059.3508-.0542.6692-.1054 1.0017-.055.3576-.112.7274-.1264 1.1762-.0142.4368.0404.8909.0932 1.3301.1066.887.216 1.8003-.2075 2.7014a3.5272 3.5272 0 0 1-.1876-.3856c-.0527-.1276-.1669-.3326-.3251-.6162-.6156-1.1041-2.0574-3.6896-1.3193-4.7446.3795-.5427 1.3408-.5661 2.1781-.463zm.2284 7.0137a12.3762 12.3762 0 0 0-.0853-.1074l-.0355-.0444c.7262-1.1995.5842-2.3862.4578-3.4385-.0519-.4318-.1009-.8396-.0885-1.2226.0129-.4061.0666-.7543.1185-1.0911.0639-.415.1288-.8443.1109-1.3505.0134-.0531.0188-.1158.0118-.1902-.0457-.4855-.5999-1.938-1.7294-3.253-.6076-.7073-1.4896-1.4972-2.6889-2.0395.5251-.1066 1.2328-.2035 2.0244-.1859 2.0515.0456 3.6746.8135 4.8242 2.2824a.908.908 0 0 1 .0667.1002c.7231 1.3556-.2762 6.2751-2.9867 10.5405zm-8.8166-6.1162c-.025.1794-.3089.4225-.6211.4225a.5821.5821 0 0 1-.0809-.0056c-.1873-.026-.3765-.144-.5059-.3156-.0458-.0605-.1203-.178-.1055-.2844.0055-.0401.0261-.0985.0925-.1488.1182-.0894.3518-.1226.6096-.0867.3163.0441.6426.1938.6113.4186zm7.9305-.4114c.0111.0792-.049.201-.1531.3102-.0683.0717-.212.1961-.4079.2232a.5456.5456 0 0 1-.075.0052c-.2935 0-.5414-.2344-.5607-.3717-.024-.1765.2641-.3106.5611-.352.297-.0414.6111.0088.6356.1851z"/></svg>SQL</li>
+            <li><svg viewBox="0 0 24 24" aria-hidden="true" style="color:#F37626"><path d="M7.157 22.201A1.784 1.799 0 0 1 5.374 24a1.784 1.799 0 0 1-1.784-1.799 1.784 1.799 0 0 1 1.784-1.799 1.784 1.799 0 0 1 1.783 1.799zM20.582 1.427a1.415 1.427 0 0 1-1.415 1.428 1.415 1.427 0 0 1-1.416-1.428A1.415 1.427 0 0 1 19.167 0a1.415 1.427 0 0 1 1.415 1.427zM4.992 3.336A1.047 1.056 0 0 1 3.946 4.39a1.047 1.056 0 0 1-1.047-1.055A1.047 1.056 0 0 1 3.946 2.28a1.047 1.056 0 0 1 1.046 1.056zm7.336 1.517c3.769 0 7.06 1.38 8.768 3.424a9.363 9.363 0 0 0-3.393-4.547 9.238 9.238 0 0 0-5.377-1.728A9.238 9.238 0 0 0 6.95 3.73a9.363 9.363 0 0 0-3.394 4.547c1.713-2.04 5.004-3.424 8.772-3.424zm.001 13.295c-3.768 0-7.06-1.381-8.768-3.425a9.363 9.363 0 0 0 3.394 4.547A9.238 9.238 0 0 0 12.33 21a9.238 9.238 0 0 0 5.377-1.729 9.363 9.363 0 0 0 3.393-4.547c-1.712 2.044-5.003 3.425-8.772 3.425Z"/></svg>Jupyter Notebook</li>
+          </ul>
+        </div>
+        <div class="skill-group">
+          <h3 data-en="Databases">Bases de datos</h3>
+          <ul class="stack">
+            <li><svg viewBox="0 0 24 24" aria-hidden="true" style="color:#4169E1"><path d="M23.5594 14.7228a.5269.5269 0 0 0-.0563-.1191c-.139-.2632-.4768-.3418-1.0074-.2321-1.6533.3411-2.2935.1312-2.5256-.0191 1.342-2.0482 2.445-4.522 3.0411-6.8297.2714-1.0507.7982-3.5237.1222-4.7316a1.5641 1.5641 0 0 0-.1509-.235C21.6931.9086 19.8007.0248 17.5099.0005c-1.4947-.0158-2.7705.3461-3.1161.4794a9.449 9.449 0 0 0-.5159-.0816 8.044 8.044 0 0 0-1.3114-.1278c-1.1822-.0184-2.2038.2642-3.0498.8406-.8573-.3211-4.7888-1.645-7.2219.0788C.9359 2.1526.3086 3.8733.4302 6.3043c.0409.818.5069 3.334 1.2423 5.7436.4598 1.5065.9387 2.7019 1.4334 3.582.553.9942 1.1259 1.5933 1.7143 1.7895.4474.1491 1.1327.1441 1.8581-.7279.8012-.9635 1.5903-1.8258 1.9446-2.2069.4351.2355.9064.3625 1.39.3772a.0569.0569 0 0 0 .0004.0041 11.0312 11.0312 0 0 0-.2472.3054c-.3389.4302-.4094.5197-1.5002.7443-.3102.064-1.1344.2339-1.1464.8115-.0025.1224.0329.2309.0919.3268.2269.4231.9216.6097 1.015.6331 1.3345.3335 2.5044.092 3.3714-.6787-.017 2.231.0775 4.4174.3454 5.0874.2212.5529.7618 1.9045 2.4692 1.9043.2505 0 .5263-.0291.8296-.0941 1.7819-.3821 2.5557-1.1696 2.855-2.9059.1503-.8707.4016-2.8753.5388-4.1012.0169-.0703.0357-.1207.057-.1362.0007-.0005.0697-.0471.4272.0307a.3673.3673 0 0 0 .0443.0068l.2539.0223.0149.001c.8468.0384 1.9114-.1426 2.5312-.4308.6438-.2988 1.8057-1.0323 1.5951-1.6698zM2.371 11.8765c-.7435-2.4358-1.1779-4.8851-1.2123-5.5719-.1086-2.1714.4171-3.6829 1.5623-4.4927 1.8367-1.2986 4.8398-.5408 6.108-.13-.0032.0032-.0066.0061-.0098.0094-2.0238 2.044-1.9758 5.536-1.9708 5.7495-.0002.0823.0066.1989.0162.3593.0348.5873.0996 1.6804-.0735 2.9184-.1609 1.1504.1937 2.2764.9728 3.0892.0806.0841.1648.1631.2518.2374-.3468.3714-1.1004 1.1926-1.9025 2.1576-.5677.6825-.9597.5517-1.0886.5087-.3919-.1307-.813-.5871-1.2381-1.3223-.4796-.839-.9635-2.0317-1.4155-3.5126zm6.0072 5.0871c-.1711-.0428-.3271-.1132-.4322-.1772.0889-.0394.2374-.0902.4833-.1409 1.2833-.2641 1.4815-.4506 1.9143-1.0002.0992-.126.2116-.2687.3673-.4426a.3549.3549 0 0 0 .0737-.1298c.1708-.1513.2724-.1099.4369-.0417.156.0646.3078.26.3695.4752.0291.1016.0619.2945-.0452.4444-.9043 1.2658-2.2216 1.2494-3.1676 1.0128zm2.094-3.988-.0525.141c-.133.3566-.2567.6881-.3334 1.003-.6674-.0021-1.3168-.2872-1.8105-.8024-.6279-.6551-.9131-1.5664-.7825-2.5004.1828-1.3079.1153-2.4468.079-3.0586-.005-.0857-.0095-.1607-.0122-.2199.2957-.2621 1.6659-.9962 2.6429-.7724.4459.1022.7176.4057.8305.928.5846 2.7038.0774 3.8307-.3302 4.7363-.084.1866-.1633.3629-.2311.5454zm7.3637 4.5725c-.0169.1768-.0358.376-.0618.5959l-.146.4383a.3547.3547 0 0 0-.0182.1077c-.0059.4747-.054.6489-.115.8693-.0634.2292-.1353.4891-.1794 1.0575-.11 1.4143-.8782 2.2267-2.4172 2.5565-1.5155.3251-1.7843-.4968-2.0212-1.2217a6.5824 6.5824 0 0 0-.0769-.2266c-.2154-.5858-.1911-1.4119-.1574-2.5551.0165-.5612-.0249-1.9013-.3302-2.6462.0044-.2932.0106-.5909.019-.8918a.3529.3529 0 0 0-.0153-.1126 1.4927 1.4927 0 0 0-.0439-.208c-.1226-.4283-.4213-.7866-.7797-.9351-.1424-.059-.4038-.1672-.7178-.0869.067-.276.1831-.5875.309-.9249l.0529-.142c.0595-.16.134-.3257.213-.5012.4265-.9476 1.0106-2.2453.3766-5.1772-.2374-1.0981-1.0304-1.6343-2.2324-1.5098-.7207.0746-1.3799.3654-1.7088.5321a5.6716 5.6716 0 0 0-.1958.1041c.0918-1.1064.4386-3.1741 1.7357-4.4823a4.0306 4.0306 0 0 1 .3033-.276.3532.3532 0 0 0 .1447-.0644c.7524-.5706 1.6945-.8506 2.802-.8325.4091.0067.8017.0339 1.1742.081 1.939.3544 3.2439 1.4468 4.0359 2.3827.8143.9623 1.2552 1.9315 1.4312 2.4543-1.3232-.1346-2.2234.1268-2.6797.779-.9926 1.4189.543 4.1729 1.2811 5.4964.1353.2426.2522.4522.2889.5413.2403.5825.5515.9713.7787 1.2552.0696.087.1372.1714.1885.245-.4008.1155-1.1208.3825-1.0552 1.717-.0123.1563-.0423.4469-.0834.8148-.0461.2077-.0702.4603-.0994.7662zm.8905-1.6211c-.0405-.8316.2691-.9185.5967-1.0105a2.8566 2.8566 0 0 0 .135-.0406 1.202 1.202 0 0 0 .1342.103c.5703.3765 1.5823.4213 3.0068.1344-.2016.1769-.5189.3994-.9533.6011-.4098.1903-1.0957.333-1.7473.3636-.7197.0336-1.0859-.0807-1.1721-.151zm.5695-9.2712c-.0059.3508-.0542.6692-.1054 1.0017-.055.3576-.112.7274-.1264 1.1762-.0142.4368.0404.8909.0932 1.3301.1066.887.216 1.8003-.2075 2.7014a3.5272 3.5272 0 0 1-.1876-.3856c-.0527-.1276-.1669-.3326-.3251-.6162-.6156-1.1041-2.0574-3.6896-1.3193-4.7446.3795-.5427 1.3408-.5661 2.1781-.463zm.2284 7.0137a12.3762 12.3762 0 0 0-.0853-.1074l-.0355-.0444c.7262-1.1995.5842-2.3862.4578-3.4385-.0519-.4318-.1009-.8396-.0885-1.2226.0129-.4061.0666-.7543.1185-1.0911.0639-.415.1288-.8443.1109-1.3505.0134-.0531.0188-.1158.0118-.1902-.0457-.4855-.5999-1.938-1.7294-3.253-.6076-.7073-1.4896-1.4972-2.6889-2.0395.5251-.1066 1.2328-.2035 2.0244-.1859 2.0515.0456 3.6746.8135 4.8242 2.2824a.908.908 0 0 1 .0667.1002c.7231 1.3556-.2762 6.2751-2.9867 10.5405zm-8.8166-6.1162c-.025.1794-.3089.4225-.6211.4225a.5821.5821 0 0 1-.0809-.0056c-.1873-.026-.3765-.144-.5059-.3156-.0458-.0605-.1203-.178-.1055-.2844.0055-.0401.0261-.0985.0925-.1488.1182-.0894.3518-.1226.6096-.0867.3163.0441.6426.1938.6113.4186zm7.9305-.4114c.0111.0792-.049.201-.1531.3102-.0683.0717-.212.1961-.4079.2232a.5456.5456 0 0 1-.075.0052c-.2935 0-.5414-.2344-.5607-.3717-.024-.1765.2641-.3106.5611-.352.297-.0414.6111.0088.6356.1851z"/></svg>PostgreSQL</li>
+            <li><svg viewBox="0 0 24 24" aria-hidden="true" style="color:#3FCF8E"><path d="M11.9 1.036c-.015-.986-1.26-1.41-1.874-.637L.764 12.05C-.33 13.427.65 15.455 2.409 15.455h9.579l.113 7.51c.014.985 1.259 1.408 1.873.636l9.262-11.653c1.093-1.375.113-3.403-1.645-3.403h-9.642z"/></svg>Supabase</li>
+            <li><svg viewBox="0 0 24 24" aria-hidden="true" style="color:#4479A1"><path d="M16.405 5.501c-.115 0-.193.014-.274.033v.013h.014c.054.104.146.18.214.273.054.107.1.214.154.32l.014-.015c.094-.066.14-.172.14-.333-.04-.047-.046-.094-.08-.14-.04-.067-.126-.1-.18-.153zM5.77 18.695h-.927a50.854 50.854 0 00-.27-4.41h-.008l-1.41 4.41H2.45l-1.4-4.41h-.01a72.892 72.892 0 00-.195 4.41H0c.055-1.966.192-3.81.41-5.53h1.15l1.335 4.064h.008l1.347-4.064h1.095c.242 2.015.384 3.86.428 5.53zm4.017-4.08c-.378 2.045-.876 3.533-1.492 4.46-.482.716-1.01 1.073-1.583 1.073-.153 0-.34-.046-.566-.138v-.494c.11.017.24.026.386.026.268 0 .483-.075.647-.222.197-.18.295-.382.295-.605 0-.155-.077-.47-.23-.944L6.23 14.615h.91l.727 2.36c.164.536.233.91.205 1.123.4-1.064.678-2.227.835-3.483zm12.325 4.08h-2.63v-5.53h.885v4.85h1.745zm-3.32.135l-1.016-.5c.09-.076.177-.158.255-.25.433-.506.648-1.258.648-2.253 0-1.83-.718-2.746-2.155-2.746-.704 0-1.254.232-1.65.697-.43.508-.646 1.256-.646 2.245 0 .972.19 1.686.574 2.14.35.41.877.615 1.583.615.264 0 .506-.033.725-.098l1.325.772.36-.622zM15.5 17.588c-.225-.36-.337-.94-.337-1.736 0-1.393.424-2.09 1.27-2.09.443 0 .77.167.977.5.224.362.336.936.336 1.723 0 1.404-.424 2.108-1.27 2.108-.445 0-.77-.167-.978-.5zm-1.658-.425c0 .47-.172.856-.516 1.156-.344.3-.803.45-1.384.45-.543 0-1.064-.172-1.573-.515l.237-.476c.438.22.833.328 1.19.328.332 0 .593-.073.783-.22a.754.754 0 00.3-.615c0-.33-.23-.61-.648-.845-.388-.213-1.163-.657-1.163-.657-.422-.307-.632-.636-.632-1.177 0-.45.157-.81.47-1.085.315-.278.72-.415 1.22-.415.512 0 .98.136 1.4.41l-.213.476a2.726 2.726 0 00-1.064-.23c-.283 0-.502.068-.654.206a.685.685 0 00-.248.524c0 .328.234.61.666.85.393.215 1.187.67 1.187.67.433.305.648.63.648 1.168zm9.382-5.852c-.535-.014-.95.04-1.297.188-.1.04-.26.04-.274.167.055.053.063.14.11.214.08.134.218.313.346.407.14.11.28.216.427.31.26.16.555.255.81.416.145.094.293.213.44.313.073.05.12.14.214.172v-.02c-.046-.06-.06-.147-.105-.214-.067-.067-.134-.127-.2-.193a3.223 3.223 0 00-.695-.675c-.214-.146-.682-.35-.77-.595l-.013-.014c.146-.013.32-.066.46-.106.227-.06.435-.047.67-.106.106-.027.213-.06.32-.094v-.06c-.12-.12-.21-.283-.334-.395a8.867 8.867 0 00-1.104-.823c-.21-.134-.476-.22-.697-.334-.08-.04-.214-.06-.26-.127-.12-.146-.19-.34-.275-.514a17.69 17.69 0 01-.547-1.163c-.12-.262-.193-.523-.34-.763-.69-1.137-1.437-1.826-2.586-2.5-.247-.14-.543-.2-.856-.274-.167-.008-.334-.02-.5-.027-.11-.047-.216-.174-.31-.235-.38-.24-1.364-.76-1.644-.072-.18.434.267.862.422 1.082.115.153.26.328.34.5.047.116.06.235.107.356.106.294.207.622.347.897.073.14.153.287.247.413.054.073.146.107.167.227-.094.136-.1.334-.154.5-.24.757-.146 1.693.194 2.25.107.166.362.534.703.393.3-.12.234-.5.32-.835.02-.08.007-.133.048-.187v.015c.094.188.188.367.274.555.206.328.566.668.867.895.16.12.287.328.487.402v-.02h-.015c-.043-.058-.1-.086-.154-.133a3.445 3.445 0 01-.35-.4 8.76 8.76 0 01-.747-1.218c-.11-.21-.202-.436-.29-.643-.04-.08-.04-.2-.107-.24-.1.146-.247.273-.32.453-.127.288-.14.642-.188 1.01-.027.007-.014 0-.027.014-.214-.052-.287-.274-.367-.46-.2-.475-.233-1.238-.06-1.785.047-.14.247-.582.167-.716-.042-.127-.174-.2-.247-.303a2.478 2.478 0 01-.24-.427c-.16-.374-.24-.788-.414-1.162-.08-.173-.22-.354-.334-.513-.127-.18-.267-.307-.368-.52-.033-.073-.08-.194-.027-.274.014-.054.042-.075.094-.09.088-.072.335.022.422.062.247.1.455.194.662.334.094.066.195.193.315.226h.14c.214.047.455.014.655.073.355.114.675.28.962.46a5.953 5.953 0 012.085 2.286c.08.154.115.295.188.455.14.33.313.663.455.982.14.315.275.636.476.897.1.14.502.213.682.286.133.06.34.115.46.188.23.14.454.3.67.454.11.076.443.243.463.378z"/></svg>MySQL</li>
+            <li><svg viewBox="0 0 24 24" aria-hidden="true" style="color:var(--accent)"><path d="M3 3h18v18H3V3zm2 2v3h14V5H5zm0 5v3h5v-3H5zm7 0v3h7v-3h-7zm-7 5v4h5v-4H5zm7 0v4h7v-4h-7z"/></svg>SIRIA</li>
+          </ul>
+        </div>
+        <div class="skill-group">
+          <h3 data-en="Visualisation and BI">Visualización y BI</h3>
+          <ul class="stack">
+            <li><svg viewBox="0 0 24 24" aria-hidden="true" style="color:var(--accent)"><path d="M3 21V3h2v16h16v2H3zm4-3V10h3v8H7zm5 0V6h3v12h-3zm5 0v-6h3v6h-3z"/></svg>Power BI</li>
+            <li><svg viewBox="0 0 24 24" aria-hidden="true" style="color:var(--accent)"><path d="M3 3h18v18H3V3zm2 2v3h14V5H5zm0 5v3h5v-3H5zm7 0v3h7v-3h-7zm-7 5v4h5v-4H5zm7 0v4h7v-4h-7z"/></svg>Excel</li>
+            <li><svg viewBox="0 0 24 24" aria-hidden="true" style="color:var(--accent)"><path d="M3 3h18v18H3V3zm2 2v3h14V5H5zm0 5v3h5v-3H5zm7 0v3h7v-3h-7zm-7 5v4h5v-4H5zm7 0v4h7v-4h-7z"/></svg>Power Query</li>
+            <li><svg viewBox="0 0 24 24" aria-hidden="true" style="color:var(--accent)"><path d="M3 21V3h2v16h16v2H3zm4-3V10h3v8H7zm5 0V6h3v12h-3zm5 0v-6h3v6h-3z"/></svg>Matplotlib</li>
+            <li><svg viewBox="0 0 24 24" aria-hidden="true" style="color:var(--accent)"><path d="M3 21V3h2v16h16v2H3zm4-3V10h3v8H7zm5 0V6h3v12h-3zm5 0v-6h3v6h-3z"/></svg>Seaborn</li>
+            <li><svg viewBox="0 0 24 24" aria-hidden="true" style="color:#7A76FF"><path d="M1.713.002A1.713 1.713 0 0 0 0 1.715a1.713 1.713 0 0 0 1.713 1.713 1.713 1.713 0 0 0 1.714-1.713A1.713 1.713 0 0 0 1.713.002Zm6.861 0a1.713 1.713 0 0 0-1.713 1.713 1.713 1.713 0 0 0 1.713 1.713 1.713 1.713 0 0 0 1.713-1.713A1.713 1.713 0 0 0 8.574.002Zm6.857 0a1.713 1.713 0 0 0-1.714 1.713 1.713 1.713 0 0 0 1.714 1.713 1.713 1.713 0 0 0 1.713-1.713A1.713 1.713 0 0 0 15.431.002zm6.856 0a1.713 1.713 0 0 0-1.713 1.713 1.713 1.713 0 0 0 1.713 1.713A1.713 1.713 0 0 0 24 1.715 1.713 1.713 0 0 0 22.287.002ZM1.713 6.859A1.713 1.713 0 0 0 0 8.572a1.713 1.713 0 0 0 1.713 1.713 1.713 1.713 0 0 0 1.714-1.713A1.713 1.713 0 0 0 1.713 6.86Zm6.861 0c-.948 0-1.713.765-1.713 1.713v13.713c0 .947.765 1.713 1.713 1.713.948 0 1.713-.766 1.713-1.713V8.572c0-.948-.765-1.713-1.713-1.713zm6.857 0a1.713 1.713 0 0 0-1.714 1.713 1.713 1.713 0 0 0 1.714 1.713 1.713 1.713 0 0 0 1.713-1.713 1.713 1.713 0 0 0-1.713-1.713zm6.856 0c-.947 0-1.713.765-1.713 1.713v13.713c0 .947.766 1.713 1.713 1.713.948 0 1.713-.766 1.713-1.713V8.572c0-.948-.765-1.713-1.713-1.713zM1.713 13.715C.766 13.715 0 14.48 0 15.428v6.857c0 .947.766 1.713 1.713 1.713.948 0 1.714-.766 1.714-1.713v-6.857c0-.948-.766-1.713-1.714-1.713zm13.718 0c-.948 0-1.714.765-1.714 1.713v6.857c0 .947.766 1.713 1.714 1.713.947 0 1.713-.766 1.713-1.713v-6.857c0-.948-.766-1.713-1.713-1.713z"/></svg>Plotly</li>
+          </ul>
+        </div>
+        <div class="skill-group">
+          <h3 data-en="Environment and tools">Entorno y herramientas</h3>
+          <ul class="stack">
+            <li><svg viewBox="0 0 24 24" aria-hidden="true" style="color:#F03C2E"><path d="M13.09 23.549a1.54 1.54 0 0 1-2.18 0L.451 13.089a1.54 1.54 0 0 1 0-2.179l7.191-7.19 2.733 2.733a1.85 1.85 0 0 0 .964 2.326v6.66a1.849 1.849 0 1 0 1.54 0V8.957l2.508 2.508a1.85 1.85 0 1 0 1.09-1.09l-2.634-2.634a1.85 1.85 0 0 0-2.378-2.377L8.73 2.63 10.91.451a1.54 1.54 0 0 1 2.179 0l10.459 10.46a1.54 1.54 0 0 1 0 2.179z"/></svg>Git</li>
+            <li><svg viewBox="0 0 24 24" aria-hidden="true" style="color:#C97272"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg>GitHub</li>
+            <li><svg viewBox="0 0 24 24" aria-hidden="true" style="color:var(--accent)"><path d="M9.4 16.6 4.8 12l4.6-4.6L8 6l-6 6 6 6 1.4-1.4zm5.2 0 4.6-4.6-4.6-4.6L16 6l6 6-6 6-1.4-1.4z"/></svg>VS Code</li>
+            <li><svg viewBox="0 0 24 24" aria-hidden="true" style="color:var(--accent)"><path d="M9.4 16.6 4.8 12l4.6-4.6L8 6l-6 6 6 6 1.4-1.4zm5.2 0 4.6-4.6-4.6-4.6L16 6l6 6-6 6-1.4-1.4z"/></svg>APIs REST</li>
+            <li><svg viewBox="0 0 24 24" aria-hidden="true" style="color:var(--accent)"><path d="M9.4 16.6 4.8 12l4.6-4.6L8 6l-6 6 6 6 1.4-1.4zm5.2 0 4.6-4.6-4.6-4.6L16 6l6 6-6 6-1.4-1.4z"/></svg>Conventional Commits</li>
+          </ul>
+        </div>
+        <div class="skill-group">
+          <h3 data-en="Soft skills">Competencias interpersonales</h3>
+          <ul class="tags"><li data-en="Explaining data clearly">Explicar datos de forma clara</li><li data-en="Leading teams">Coordinar equipos</li><li data-en="Problem solving">Resolver problemas</li><li data-en="Working with public bodies">Tratar con organismos y administración</li></ul>
+        </div>
+      </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== EXPERIENCIA ===== -->
+  <section id="experiencia">
+    <div class="wrap">
+      <span class="eyebrow" data-en="Career">Trayectoria</span>
+      <h2 style="margin-bottom:3rem" data-en="Experience">Experiencia</h2>
+      <ol class="timeline">
+        <li>
+          <div class="when" data-en="Aug 2026 – Sep 2026">ago. 2026 – sep. 2026</div>
+          <div>
+            <h3 data-en="Data Analyst (Internship)">Analista de Datos (Prácticas)</h3>
+            <span class="org" data-en="MuMa – Murciélagos Málaga">MuMa – Murciélagos Málaga</span>
+            <ul>
+              <li data-en="Audit and integration into a single PostgreSQL/Supabase database of roost information previously scattered across a Google map and several disconnected sources: normalising free-text fields, resolving duplicates and recovering incomplete records.">Auditoría e integración en una única base de datos (PostgreSQL/Supabase) de la información de refugios, hasta entonces repartida entre un mapa de Google y varias fuentes desconectadas: normalización de campos de texto libre, resolución de duplicados y recuperación de registros incompletos.</li>
+              <li data-en="Development of an interactive dashboard with a map (HTML/JS, Chart.js, Leaflet) connected live to the database through a REST API, with monitoring and data quality views.">Desarrollo de un dashboard interactivo con mapa (HTML/JS, Chart.js, Leaflet) conectado en vivo a la base de datos mediante API REST, con vistas de seguimiento y de calidad de datos.</li>
+              <li data-en="Extension of the data model and technical documentation of the project to keep it maintainable and transferable.">Ampliación del modelo de datos y documentación técnica del proyecto para garantizar su mantenimiento y transferencia.</li>
+            </ul>
+          </div>
+        </li>
+        <li>
+          <div class="when" data-en="Nov 2023 – Jul 2025">nov. 2023 – jul. 2025</div>
+          <div>
+            <h3 data-en="Social Worker — Humanitarian Aid and International Protection">Trabajadora Social — Ayuda Humanitaria y Protección Internacional</h3>
+            <span class="org" data-en="CEAR, Málaga">CEAR, Málaga</span>
+            <ul>
+              <li data-en="Management, follow-up and reporting of financial aid, with records kept in SIRIA, the national case management system.">Gestión, seguimiento y justificación de ayudas económicas, con registro en el aplicativo estatal SIRIA.</li>
+            </ul>
+          </div>
+        </li>
+        <li>
+          <div class="when" data-en="Sep 2017 – Nov 2023">sep. 2017 – nov. 2023</div>
+          <div>
+            <h3 data-en="Area Coordinator and Social Worker">Coordinadora de Área y Trabajadora Social</h3>
+            <span class="org" data-en="Málaga Acoge, Málaga">Málaga Acoge, Málaga</span>
+            <ul>
+              <li data-en="Supervision of a multidisciplinary team of 12 professionals across two sites, running 9 reception facilities, and strategic planning of the programme.">Supervisión de un equipo multidisciplinar de 12 profesionales en dos localizaciones, con 9 dispositivos de acogida, y planificación estratégica del programa.</li>
+              <li data-en="Data analysis in SIRIA and internal databases to track indicators, budget control, and writing technical reports for funding bodies.">Explotación de datos en SIRIA y bases internas para el seguimiento de indicadores, control presupuestario y redacción de memorias técnicas para organismos financiadores.</li>
+            </ul>
+          </div>
+        </li>
+        <li>
+          <div class="when" data-en="Aug 2016 – Jun 2017">ago. 2016 – jun. 2017</div>
+          <div>
+            <h3 data-en="Social Worker — International Protection Programme">Trabajadora Social — Programa de Protección Internacional</h3>
+            <span class="org" data-en="Spanish Red Cross and CEAR, Granada and Málaga">Cruz Roja Española y CEAR, Granada y Málaga</span>
+            <ul>
+              <li data-en="Management and reporting of financial aid, and record keeping for the programme.">Gestión y justificación de ayudas económicas y registro de datos del programa.</li>
+            </ul>
+          </div>
+        </li>
+      </ol>
+      <p style="color:var(--muted);font-size:0.95rem;margin-top:2rem">Tienes la trayectoria completa y detallada en mi <a class="link" href="https://www.linkedin.com/in/aduquegarcia" target="_blank" rel="noopener">LinkedIn</a>.</p>
+    </div>
+  </section>
+
+  <!-- ===== FORMACIÓN ===== -->
+  <section id="formacion">
+    <div class="wrap">
+      <span class="eyebrow" data-en="Learning">Aprendizaje</span>
+      <h2 style="margin-bottom:3rem" data-en="Education and certifications">Formación y certificaciones</h2>
+      <div class="edu">
+        <div>
+          <h3 data-en="Education">Formación</h3>
+          <ul>
+            <li><span class="year">2026</span><strong data-en="Data Analyst Bootcamp">Bootcamp Data Analyst</strong><span>Factoría F5</span></li>
+            <li><span class="year">2013 – 2015</span><strong data-en="Master's in Crime and Social Intervention with Minors">Máster en Criminalidad e Intervención Social con Menores</strong><span data-en="University of Granada">Universidad de Granada</span></li>
+            <li><span class="year">2009 – 2013</span><strong data-en="BA in Social Work">Grado en Trabajo Social</strong><span data-en="Complutense University of Madrid">Universidad Complutense de Madrid</span></li>
+          </ul>
+        </div>
+        <div>
+          <h3 data-en="Certifications">Certificaciones</h3>
+          <ul>
+            <li><span class="year">2026</span><strong>Python Essentials 1</strong><span>Cisco Networking Academy / OpenEDG Python Institute</span></li>
+            <li><span class="year">2026</span><strong data-en="Data analytics fundamentals">Fundamentos de data analytics</strong><span>Accenture</span></li>
+            <li><span class="year">2026</span><strong data-en="Statistical methods in data analytics">Métodos estadísticos en data analytics</strong><span>Accenture</span></li>
+            <li><span class="year">2026</span><strong>Power BI</strong><span>Santander Open Academy</span></li>
+            <li><span class="year">2026</span><strong>Google AI Essentials</strong><span>Google / Coursera</span></li>
+            <li><span class="year">2018</span><strong data-en="SIRIA case management system">Aplicativo SIRIA</strong><span data-en="Spanish Ministry of Labour, Migration and Social Security">Ministerio de Trabajo, Migraciones y Seguridad Social</span></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== CONTACTO ===== -->
+  <section id="contacto">
+    <div class="wrap contact">
+      <span class="eyebrow" data-en="Contact">Contacto</span>
+      <h2 data-en="Let's talk">¿Hablamos?</h2>
+      <p class="lead" data-en="I'm looking for my first job as a data analyst and I can start right away. If you think I'd fit in your team, drop me a line and I'll get back to you quickly.">Estoy buscando mi primer trabajo como analista de datos y puedo incorporarme ya. Si crees que puedo encajar en tu equipo, escríbeme y te contesto enseguida.</p>
+      <div class="actions">
+        <a class="btn btn-primary" href="mailto:aduquegarcia.data@gmail.com" data-en="Email me">Escríbeme</a>
+        <a class="btn btn-outline" href="https://www.linkedin.com/in/aduquegarcia" target="_blank" rel="noopener">LinkedIn</a>
+        <a class="btn btn-outline" href="https://github.com/ALEJANDRADG2612" target="_blank" rel="noopener">GitHub</a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <span>© 2026 Alejandra Duque García</span>
+    <span data-en="Málaga, Spain">Málaga, España</span>
+  </div>
+</footer>
+
+
+<script>
+  (function () {
+    var btn = document.getElementById('lang');
+    var nodes = document.querySelectorAll('[data-en]');
+    nodes.forEach(function (n) { n.dataset.es = n.innerHTML; });
+    var en = false;
+    btn.addEventListener('click', function () {
+      en = !en;
+      nodes.forEach(function (n) { n.innerHTML = en ? n.dataset.en : n.dataset.es; });
+      document.documentElement.lang = en ? 'en' : 'es';
+      btn.textContent = en ? 'ES' : 'EN';
+      btn.setAttribute('aria-label', en ? 'Leer en español' : 'Read in English');
+    });
+  })();
+</script>
+</body>
+</html>
